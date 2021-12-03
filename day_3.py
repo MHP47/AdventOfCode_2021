@@ -22,7 +22,7 @@ def part_2(p_Input):
             break
 
         if len(oxygen) > 1:
-            mc = Counter(cat(list(zip(*oxygen))[i])).most_common()
+            mc = Counter(list(zip(*oxygen))[i]).most_common()
             if mc[0][1] == mc[1][1]:
                 mc_bit = '1'
             else:
@@ -30,7 +30,7 @@ def part_2(p_Input):
             oxygen = [z for z in oxygen if z[i] == mc_bit]
 
         if len(co2) > 1:
-            mc = Counter(cat(list(zip(*co2))[i])).most_common()
+            mc = Counter(list(zip(*co2))[i]).most_common()
             if mc[0][1] == mc[1][1]:
                 mc_bit = '0'
             else:
