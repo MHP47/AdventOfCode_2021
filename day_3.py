@@ -3,11 +3,10 @@ from collections import Counter
 
 
 def part_1(p_Input):
-    x = p_Input.splitlines()
-    x = [[a[i] for a in x] for i in range(len(x[0]))]
+    x = list(zip(*p_Input.splitlines()))
     gamma = epsilon = ''
-    for i in range(len(x)):
-        mc = Counter(x[i]).most_common()
+    for i in x:
+        mc = Counter(i).most_common()
         gamma += mc[0][0]
         epsilon += mc[1][0]
     return int(gamma,2) * int(epsilon,2)
@@ -23,7 +22,7 @@ def part_2(p_Input):
             break
 
         if len(oxygen) > 1:
-            mc = Counter(cat(list(zip([[z[i] for z in oxygen] for i in range(itm_len)]))[i][0])).most_common()
+            mc = Counter(cat(list(zip(*oxygen))[i])).most_common()
             if mc[0][1] == mc[1][1]:
                 mc_bit = '1'
             else:
@@ -31,7 +30,7 @@ def part_2(p_Input):
             oxygen = [z for z in oxygen if z[i] == mc_bit]
 
         if len(co2) > 1:
-            mc = Counter(cat(list(zip([[z[i] for z in co2] for i in range(itm_len)]))[i][0])).most_common()
+            mc = Counter(cat(list(zip(*co2))[i])).most_common()
             if mc[0][1] == mc[1][1]:
                 mc_bit = '0'
             else:
