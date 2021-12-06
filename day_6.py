@@ -1,19 +1,18 @@
 from utils import *
 
 
-def part_1(p_Input):
-    fish = list(map(int, p_Input.split(',')))
-    for _ in range(80):
-        while True:
-            try:
-                idx = fish.index(0)
-                fish[idx] = 7
-                fish.append(9)
-            except ValueError:
-                break
-        fish = [x-1 for x in fish]
-
-    return len(fish)
+def part_1(p_Input, days=80):
+    fish = deque(parse_ints(p_Input))
+    count = 0
+    try:
+        while f := fish.popleft():
+            count += 1
+            if f > days:
+                continue
+            fish.extend([x+1 for x in range(f+1,days+8,7)][1:])
+    except IndexError:
+        pass
+    return count
 
 
 def part_2(p_Input):
