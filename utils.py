@@ -4,11 +4,15 @@ import re
 import itertools
 import operator
 import math
-from collections import defaultdict, deque
+from collections import defaultdict, deque, Counter
 from pprint import pprint
 from copy import deepcopy, copy
 from heapq import heappop, heappush
 from functools import reduce
+try:
+        from aocd import data,lines
+except:
+        pass
 
 BIG = 10 ** 999
 alphabet = 'abcdefghijklmnopqrstuvwxyz'
