@@ -28,53 +28,27 @@ def part_1(p_Input):
 def part_2(p_Input):
     TOTAL = 0
     data = [(y.split(' '), z.split(' ')) for y,z in [x.split(' | ') for x in p_Input.splitlines()]]
+
+    def get_set(C: Counter, L: int):
+        return set([k for k,v in C.items() if v == L])
+
     for signal_patterns, output_val in data:
         numbers = defaultdict(lambda: set(alphabet))
-        # Proc knowns first
-        for pattern in [x for x in signal_patterns if len(x) in (2,4,3,7)]:
-            if len(pattern) == 2:
-                # 1
-                numbers[2] = numbers[2].intersection(set(pattern))
-                numbers[5] = numbers[5].intersection(set(pattern))
-            elif len(pattern) == 4:
-                # 4
-                numbers[1] = numbers[1].intersection(set(pattern))
-                numbers[2] = numbers[2].intersection(set(pattern))
-                numbers[3] = numbers[3].intersection(set(pattern))
-                numbers[5] = numbers[5].intersection(set(pattern))
-            elif len(pattern) == 3:
-                # 7
-                numbers[0] = numbers[0].intersection(set(pattern))
-                numbers[2] = numbers[2].intersection(set(pattern))
-                numbers[5] = numbers[5].intersection(set(pattern))
-            elif len(pattern) == 7:
-                # 8
-                numbers[0] = numbers[0].intersection(set(pattern))
-                numbers[1] = numbers[1].intersection(set(pattern))
-                numbers[2] = numbers[2].intersection(set(pattern))
-                numbers[3] = numbers[3].intersection(set(pattern))
-                numbers[4] = numbers[4].intersection(set(pattern))
-                numbers[5] = numbers[5].intersection(set(pattern))
-                numbers[6] = numbers[6].intersection(set(pattern))
+        
+        l2 = Counter(flatten([x for x in signal_patterns if len(x) == 2])) # 1
+        l3 = Counter(flatten([x for x in signal_patterns if len(x) == 3])) # 7
+        l4 = Counter(flatten([x for x in signal_patterns if len(x) == 4])) # 4
+        l5 = Counter(flatten([x for x in signal_patterns if len(x) == 5])) # 2 3 5
+        l6 = Counter(flatten([x for x in signal_patterns if len(x) == 6])) # 0 6 9
+        l7 = Counter(flatten([x for x in signal_patterns if len(x) == 7])) # 8
 
-        fives = Counter(flatten([x for x in signal_patterns if len(x) == 5]))
-        sixes = Counter(flatten([x for x in signal_patterns if len(x) == 6]))
-
-        numbers[0] = numbers[0].intersection(set([k for k,v in fives.items() if v == 3]))
-        numbers[3] = numbers[3].intersection(set([k for k,v in fives.items() if v == 3]))
-        numbers[6] = numbers[6].intersection(set([k for k,v in fives.items() if v == 3]))
-        numbers[2] = numbers[2].intersection(set([k for k,v in fives.items() if v == 2]))
-        numbers[5] = numbers[5].intersection(set([k for k,v in fives.items() if v == 2]))
-        numbers[1] = numbers[1].intersection(set([k for k,v in fives.items() if v == 1]))
-        numbers[4] = numbers[4].intersection(set([k for k,v in fives.items() if v == 1]))
-
-        numbers[0] = numbers[0].intersection(set([k for k,v in sixes.items() if v == 3]))
-        numbers[1] = numbers[1].intersection(set([k for k,v in sixes.items() if v == 3]))
-        numbers[5] = numbers[5].intersection(set([k for k,v in sixes.items() if v == 3]))
-        numbers[6] = numbers[6].intersection(set([k for k,v in sixes.items() if v == 3]))
-        numbers[2] = numbers[2].intersection(set([k for k,v in sixes.items() if v == 2]))
-        numbers[3] = numbers[3].intersection(set([k for k,v in sixes.items() if v == 2]))
-        numbers[4] = numbers[4].intersection(set([k for k,v in sixes.items() if v == 2]))
+        numbers[0] = get_set(l6,3).intersection(get_set(l5,3)).intersection(get_set(l3,1)).intersection(get_set(l7,1))
+        numbers[1] = get_set(l6,3).intersection(get_set(l4,1)).intersection(get_set(l5,1)).intersection(get_set(l7,1))
+        numbers[2] = get_set(l6,2).intersection(get_set(l2,1)).intersection(get_set(l5,2)).intersection(get_set(l4,1)).intersection(get_set(l3,1)).intersection(get_set(l7,1))
+        numbers[3] = get_set(l5,3).intersection(get_set(l4,1)).intersection(get_set(l6,2)).intersection(get_set(l7,1))
+        numbers[4] = get_set(l6,2).intersection(get_set(l5,1)).intersection(get_set(l7,1))
+        numbers[5] = get_set(l6,3).intersection(get_set(l2,1)).intersection(get_set(l5,2)).intersection(get_set(l4,1)).intersection(get_set(l3,1)).intersection(get_set(l7,1))
+        numbers[6] = get_set(l6,3).intersection(get_set(l5,3)).intersection(get_set(l7,1))
 
         seen = set()
         digits = dict()
