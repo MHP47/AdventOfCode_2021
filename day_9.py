@@ -32,17 +32,19 @@ def part_2(p_Input):
             if all([p < x for x in n]):
                 lows.append((c,r))
     sizes = []
+    # Breadth first search
     for c,r in lows:
-        look = deque([(x,y) for x,y in neighbors4((c,r)) if heightmap[(x,y)] < 9 and heightmap[(c,r)] < heightmap[(x,y)]])
+        look = deque([(x,y) for x,y in neighbors4((c,r)) if heightmap[(c,r)] < heightmap[(x,y)] < 9])
         size = 1
         seen = set()
         while look:
             a,b = look.popleft()
-            seen.add((a,b))
             size+=1
             n = [(x,y) for x,y in neighbors4((a,b)) 
-                 if heightmap[(x,y)] < 9 and heightmap[(a,b)] < heightmap[(x,y)]and (x,y) not in seen and (x,y) not in look]
+                 if heightmap[(a,b)] < heightmap[(x,y)] < 9 and (x,y) not in seen]
             look.extend(n)
+            seen.add((a,b))
+            seen.update(n)
         sizes.append(size)
     
     return mul_reduce(sorted(sizes)[-3:])
