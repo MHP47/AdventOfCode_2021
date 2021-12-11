@@ -12,8 +12,7 @@ def part_1(p_Input):
         p = ''
         while p != r:
             p = r
-            for c in (r'\[\]', r'\(\)', '<>', r'{}'):
-                r = re.sub(c, '', r)
+            r = re.sub(r'\[\]|{}|\(\)|<>', '', r)
         if not all([x in OPENS for x in r]):
             illegal_char = re.search(r'[\[{\(<][\]}\)>]', r).group()[-1]
             score += SCORES[illegal_char]
@@ -26,8 +25,7 @@ def part_2(p_Input):
         p = ''
         while p != r:
             p = r
-            for c in (r'\[\]', r'\(\)', '<>', r'{}'):
-                r = re.sub(c, '', r)
+            r = re.sub(r'\[\]|{}|\(\)|<>', '', r)
         if all([x in OPENS for x in r]):
             score = 0
             for x in r[::-1]:
