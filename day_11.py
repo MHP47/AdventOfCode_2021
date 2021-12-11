@@ -1,4 +1,5 @@
 from utils import *
+from itertools import count
 
 
 def part_1(p_Input, p_Steps=100):
@@ -32,12 +33,39 @@ def part_1(p_Input, p_Steps=100):
 
         total += len(flashed)
     
-    print(total)
     return total
 
 
 def part_2(p_Input):
-    pass
+    octo = defaultdict(int)
+    octo = dict()
+    for rows, x in enumerate(p_Input.splitlines()):
+        for cols, y in enumerate(map(int, list(x))):
+            octo[(cols,rows)] = y
+
+    for step in count(start=1, step=1):
+        flashed = set()
+        proc = deque()
+        for i in octo.keys():
+            octo[i] += 1
+            if octo[i] > 9:
+                proc.append(i)
+
+        while proc:
+            pass
+            n = proc.popleft()
+            flashed.add(n)
+            for x in neighbors8(n):
+                if 0 <= X(x) <= cols and 0 <= Y(x) <= rows:
+                    if x not in flashed:
+                        octo[x] += 1
+                        if octo[x] > 9 and x not in proc:
+                            proc.append(x)
+        for n in flashed:
+            octo[n] = 0
+
+        if len(flashed) == (rows+1)*(cols+1):
+            return step
 
 
 example_input_1 = '''5483143223
@@ -63,5 +91,5 @@ assert(part_1(example_input_2, 2) == 9)
 assert(part_1(example_input_1, 100) == 1656)
 print(f"Part 1: {part_1(challenge_input)}")
 
-assert(part_2(example_input_1) == None)
+assert(part_2(example_input_1) == 195)
 print(f"Part 2: {part_2(challenge_input)}")
