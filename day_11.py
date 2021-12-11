@@ -4,7 +4,6 @@ from itertools import count
 
 def part_1(p_Input, p_Steps=100):
     octo = defaultdict(int)
-    octo = dict()
     total = 0
     for rows, x in enumerate(p_Input.splitlines()):
         for cols, y in enumerate(map(int, list(x))):
@@ -19,17 +18,17 @@ def part_1(p_Input, p_Steps=100):
                 proc.append(i)
 
         while proc:
-            pass
             n = proc.popleft()
             flashed.add(n)
             for x in neighbors8(n):
-                if 0 <= X(x) <= cols and 0 <= Y(x) <= rows:
-                    if x not in flashed:
-                        octo[x] += 1
-                        if octo[x] > 9 and x not in proc:
-                            proc.append(x)
+                if x not in flashed:
+                    octo[x] += 1
+                    if octo[x] > 9 and x not in proc:
+                        proc.append(x)
         for n in flashed:
             octo[n] = 0
+        for n in [(x,y) for x,y in octo.keys() if not 0 <= x <= cols or not 0 <= y <= rows]:
+            del octo[n]
 
         total += len(flashed)
     
@@ -38,7 +37,6 @@ def part_1(p_Input, p_Steps=100):
 
 def part_2(p_Input):
     octo = defaultdict(int)
-    octo = dict()
     for rows, x in enumerate(p_Input.splitlines()):
         for cols, y in enumerate(map(int, list(x))):
             octo[(cols,rows)] = y
@@ -52,17 +50,17 @@ def part_2(p_Input):
                 proc.append(i)
 
         while proc:
-            pass
             n = proc.popleft()
             flashed.add(n)
             for x in neighbors8(n):
-                if 0 <= X(x) <= cols and 0 <= Y(x) <= rows:
-                    if x not in flashed:
-                        octo[x] += 1
-                        if octo[x] > 9 and x not in proc:
-                            proc.append(x)
+                if x not in flashed:
+                    octo[x] += 1
+                    if octo[x] > 9 and x not in proc:
+                        proc.append(x)
         for n in flashed:
             octo[n] = 0
+        for n in [(x,y) for x,y in octo.keys() if not 0 <= x <= cols or not 0 <= y <= rows]:
+            del octo[n]
 
         if len(flashed) == (rows+1)*(cols+1):
             return step
