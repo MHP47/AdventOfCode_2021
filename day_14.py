@@ -13,9 +13,22 @@ def part_1(p_Input):
     mc = Counter(template).most_common()
     return mc[0][1] - mc[-1][1]
 
-def part_2(p_Input):
-    pass
-
+def part_2(p_Input, p_Steps=40):
+    template, rules = p_Input.split('\n\n')
+    rules = {k:v for k,v in [x.split(' -> ') for x in rules.splitlines()]}
+    elements = Counter(template)
+    pairings = Counter([cat(x) for x in zip(template,template[1:])])
+    for _ in range(p_Steps):
+        tmp_pairings = pairings.copy()
+        for (x,y),z in rules.items():
+            c = tmp_pairings[x+y]
+            pairings[x+y] -= c
+            pairings[x+z] += c
+            pairings[z+y] += c
+            elements[z] += c
+    mc = elements.most_common()
+    return mc[0][1] - mc[-1][1]
+    
 
 example_input_1 = '''NNCB
 
@@ -41,5 +54,6 @@ challenge_input = Input('14')
 assert(part_1(example_input_1) == 1588)
 print(f"Part 1: {part_1(challenge_input)}")
 
-assert(part_2(example_input_1) == 'None')
+assert(part_2(example_input_1, 10) == 1588)
+assert(part_2(example_input_1, 40) == 2188189693529)
 print(f"Part 2: {part_2(challenge_input)}")
