@@ -67,7 +67,35 @@ def part_1(p_Input):
     return versions(x)
 
 def part_2(p_Input):
-    pass
+    p = Packet(p_Input)
+    x = p.decode_packet()
+
+    def packet_values(packet):
+        packet_version, packet_type_id, data = packet
+        if packet_type_id == 4:
+            return data
+
+        sub_packet_data = map(packet_values, data)
+        
+        if packet_type_id == 0:
+            return sum(sub_packet_data)
+        elif packet_type_id == 1:
+            return mul_reduce(sub_packet_data)
+        elif packet_type_id == 2:
+            return min(sub_packet_data)
+        elif packet_type_id == 3:
+            return max(sub_packet_data)
+        
+        sub_packet_data_one, sub_packet_data_two = sub_packet_data
+        
+        if packet_type_id == 5:
+            return int(sub_packet_data_one > sub_packet_data_two)
+        elif packet_type_id == 6:
+            return int(sub_packet_data_one < sub_packet_data_two)
+        elif packet_type_id == 7:
+            return int(sub_packet_data_one == sub_packet_data_two)
+
+    return packet_values(x)
 
 
 example_input_1 = 'D2FE28'
@@ -77,6 +105,14 @@ example_input_4 = '8A004A801A8002F478'
 example_input_5 = '620080001611562C8802118E34'
 example_input_6 = 'C0015000016115A2E0802F182340'
 example_input_7 = 'A0016C880162017C3686B18A3D4780'
+example_input_8 = 'C200B40A82'
+example_input_9 = '04005AC33890'
+example_input_10 = '880086C3E88112'
+example_input_11 = 'CE00C43D881120'
+example_input_12 = 'D8005AC2A8F0'
+example_input_13 = 'F600BC2D8F'
+example_input_14 = '9C005AC2F8F0'
+example_input_15 = '9C0141080250320F1802104A08'
 challenge_input = Input('16')
 
 assert(part_1(example_input_4) == 16)
@@ -85,5 +121,12 @@ assert(part_1(example_input_6) == 23)
 assert(part_1(example_input_7) == 31)
 print(f"Part 1: {part_1(challenge_input.strip())}")
 
-assert(part_2(example_input_1) == 'None')
+assert(part_2(example_input_8) == 3)
+assert(part_2(example_input_9) == 54)
+assert(part_2(example_input_10) == 7)
+assert(part_2(example_input_11) == 9)
+assert(part_2(example_input_12) == 1)
+assert(part_2(example_input_13) == 0)
+assert(part_2(example_input_14) == 0)
+assert(part_2(example_input_15) == 1)
 print(f"Part 2: {part_2(challenge_input)}")
