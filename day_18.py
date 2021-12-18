@@ -92,7 +92,13 @@ def part_1(p_Input):
     return snail_magnitude(total)
 
 def part_2(p_Input):
-    pass
+    snail_numbers = itertools.permutations(p_Input.splitlines(), 2)
+    max_magnitude = 0
+
+    for a,b in snail_numbers:
+        max_magnitude = max(max_magnitude, snail_magnitude(snail_add(ast.literal_eval(a), ast.literal_eval(b))))
+    
+    return max_magnitude
 
 
 example_input_1 = '''[1,1]
@@ -159,5 +165,5 @@ assert(part_1(example_input_4) == 3488)
 assert(part_1(example_input_5) == 4140)
 print(f"Part 1: {part_1(challenge_input)}")
 
-assert(part_2(example_input_1) == 'None')
+assert(part_2(example_input_5) == 3993)
 print(f"Part 2: {part_2(challenge_input)}")
