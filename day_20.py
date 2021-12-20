@@ -29,7 +29,16 @@ def part_1(p_Input):
     return len(light_pixels)
 
 def part_2(p_Input):
-    pass
+    iea, img = p_Input.split('\n\n')
+    light_pixels = set()
+    for y,r in enumerate(img.splitlines()):
+        for x,c in enumerate(r):
+            if c == '#':
+                light_pixels.add((x,y))
+    
+    for step in range(50):
+        light_pixels = enhance(light_pixels, step, iea)
+    return len(light_pixels)
 
 
 example_input_1 = '''..#.#..#####.#.#.#.###.##.....###.##.#..###.####..#####..#....#..#..##..###..######.###...####..#..#####..##..#.#####...##.#.#..#.##..#.#......#.###.######.###.####...#.##.##..#..#..#####.....#.#....###..#.##......#.....#..#..#..##..#...##.######.####.####.#.#...#.......#..#.#.#...####.##.#......#..#...##.#.##..#...##.#.##..###.#......#.#.......#.#.#.####.###.##...#.....####.#..#..#.##.#....##..#.####....##...##..#...#......#.#.......#.......##..####..#...#.#.#...##..#.#..###..#####........#..####......#..#
@@ -45,5 +54,5 @@ challenge_input = Input('20')
 # assert(part_1(example_input_1) == 35)
 print(f"Part 1: {part_1(challenge_input)}")
 
-assert(part_2(example_input_1) == 'None')
+# assert(part_2(example_input_1) == 'None')
 print(f"Part 2: {part_2(challenge_input)}")
